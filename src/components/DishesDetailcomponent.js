@@ -3,24 +3,35 @@ import {Card, CardImg ,CardBody,CardText,CardTitle} from 'reactstrap';
 
 
 class DishDetail extends Component{
+  componentDidMount(){
+  console.log('component did mount');
+}
+ componentDidUpdate(){
+  console.log('component did update');
+}
   renderComments(selectedDish){
+    if(selectedDish){
   const com=selectedDish.comments.map((comment)=>{
     return (
-      <>
       <div key={comment.id}>
       <ul className="list-unstyled">
-       <li > {comment.comment}</li><br></br>
-       <li>--{comment.author},{comment.date}</li>
+       <li > {comment.comment}</li>
+       <li>--{comment.author},{new Intl.DateTimeFormat('en-us',{year:'numeric' ,month:'short',day:'2-digit'}).format(new Date(Date.parse(comment.date)))}</li>
        </ul>
        </div>
-       </>
+    
       );
-
   });
- return (com );}
+return(
+<div> 
+ <h4>Comment</h4>
+ {com}
+ </div> );}
+}
+
   renderDish(selectedDish){
+    if(selectedDish){
   return(
-<div key={selectedDish.id} className="col-12 col-md-5 m-1">
 <Card >
 <CardImg src={selectedDish.image} alt={selectedDish.name}/>
 <CardBody>
@@ -28,19 +39,21 @@ class DishDetail extends Component{
 <CardText>{selectedDish.description}</CardText>
 </CardBody>
 </Card>
-</div>
- );
+ );}
 }
 render(){
+   console.log('DishDetail component didmount render invoked');
   return(
+  <div className="container">
    <div className="row">
-   {this.renderDish(this.props.selectedDish)}
    <div className="col-12 col-md-5 m-1">
-   <h4>Comments</h4>
+   {this.renderDish(this.props.selectedDish)}
+   </div>
+   <div className="col-12 col-md-5 m-1">
    {this.renderComments(this.props.selectedDish)}
    </div>
    </div>
-
+   </div>
   );
 }
 }
