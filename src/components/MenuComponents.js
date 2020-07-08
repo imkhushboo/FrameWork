@@ -1,81 +1,58 @@
-import React ,{ Component} from 'react';
-import {Media} from 'reactstrap';
-
+import React ,{Component} from 'react';
+import {Card, CardImg ,CardImgOverlay,CardTitle} from 'reactstrap';
+import DishDetail from './DishesDetailcomponent.js';
 class Menu extends Component{
-    constructor(props){
-        super(props);
+  constructor(props){
+  	super(props);
+  	this.state={
+  		selectedDish:null
+  	};
+  }
+   onSelectedDish(dish){
+  	this.setState({
+  		selectedDish:dish
+  	});}
+   
+   renderDish(dish){
+   	if(dish!=null){
+   		return(
+   		<DishDetail selectedDish={this.state.selectedDish} />);
+   	}
+   	else{
+   		return(
+       <div></div>);
 
-        this.state={
-            dishes: [
-                {
-                    id:0,
-                    name:'Uthapizza',
-                    image:'./assets/uthapizza.png',
-                    category:'mains',
-                    label:'HOT',
-                    price:'4.99',
-                    description:'A unique combination of Indian Uthappam (pancake) and Italian pizza, topped with Cerignola olives, ripe vine cherry tomatoes, Vidalia onion, Guntur chillies and Buffalo Paneer'
-                },
-                {
-                    id:1,
-                    name:'Zucchipakoda',
-                    image:'./assets/zucchipakoda.png',
-                    category:'appetizer',
-                    label:'',
-                    price:'4.99',
-                    description:'A unique combination of Indian Uthappam (pancake) and Italian pizza, topped with Cerignola olives, ripe vine cherry tomatoes, Vidalia onion, Guntur chillies and Buffalo Paneer'
-                },
-                {
-                    id:2,
-                    name:'Vadonut',
-                    image:'./assets/vadonut.png',
-                    category:'appetizer',
-                    label:'NEW',
-                    price:'1.99',
-                    description:'A unique combination of Indian Uthappam (pancake) and Italian pizza, topped with Cerignola olives, ripe vine cherry tomatoes, Vidalia onion, Guntur chillies and Buffalo Paneer'
-                },
-                {
-                    id:3,
-                    name:'Elaicheese Cake',
-                    image:'./assets/elaicheesecake.png',
-                    category:'dessert',
-                    label:'',
-                    price:'2.99',
-                    description:'A unique combination of Indian Uthappam (pancake) and Italian pizza, topped with Cerignola olives, ripe vine cherry tomatoes, Vidalia onion, Guntur chillies and Buffalo Paneer'
-                }
-            ]
-        }
-    }
-    render(){
-        const menu=this.state.dishes.map((dish)=>{
-              return <div key={dish.id} className="col-12 mt-5">
-              <Media tag="li">
-                    <Media left middle>
-                     <Media object src={dish.image} alt={dish.name}></Media>
-                     </Media>
-              <Media body className="ml-5">
-              <Media heading>{dish.name}</Media>
-              <p>{dish.description}</p>
-          </Media>
-          </Media>
-            </div>
-           
-            
-              
-        });
-        return(
-        <>
-          <div className="container">
-              <div className="row">
-                  <Media list>
-                      {menu}
-                  </Media>
-              </div>
+   	}
+   }
+
+render(){
+	const menu=this.props.dishes.map((dish)=>{
+		return(
+           <div key={dish.id} className="col-12 col-md-5 m-1">
+            <Card onClick={ ()=>this.onSelectedDish(dish)}>
+           <CardImg src={dish.image} alt={dish.name}/>
+           <CardImgOverlay>
+           <CardTitle >{dish.name}</CardTitle>
+           </CardImgOverlay>
+           </Card>
           </div>
-          </>
-        );
+			);
+	});
+	return (
+       <div className="container">
+         <div className="row">
+        {menu}
+         </div>
+           {this.renderDish(this.state.selectedDish)}
+           
+         
+       </div>
 
-        
-    }
+
+
+		);
+}
+
+
 }
 export default Menu;
