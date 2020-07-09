@@ -1,14 +1,37 @@
-import React  from 'react';
-import {Navbar,NavbarBrand,Jumbotron} from 'reactstrap';
+import React,{Component} from 'react';
+import {Navbar,NavbarBrand,Jumbotron,NavItem,Nav,NavbarToggler,Collapse} from 'reactstrap';
+import {NavLink} from 'react-router-dom';
 
-
-function Header(){
+class Header extends Component{
+	constructor(props){
+		super(props);
+		this.state={
+             isNavOpen:false
+		};
+		this.togglerNav=this.togglerNav.bind(this);
+}
+		togglerNav(){
+            this.setState({
+                isNavOpen:!this.state.isNavOpen
+            });
+		}
+	render(){
 	return(
 		<>
-         <Navbar dark >
+         <Navbar dark expand="md" fixed="top">
          <div className="container">
-         <NavbarBrand>Ristorente Con Fusion
+         <NavbarToggler onClick={this.togglerNav} />
+         <NavbarBrand className="mr-auto" href="/">
+         <img src="../assets/logo.png" alt="logo" height="30" width="41"/>
          </NavbarBrand>
+         <Collapse navbar isOpen ={this.state.isNavOpen}>
+          <Nav navbar>
+            <NavItem><NavLink className="nav-link" to="/home"><span className="fa fa-home fa-lg"></span>Home</NavLink></NavItem>
+            <NavItem><NavLink className="nav-link" to="/aboutus"><span className="fa fa-info fa-lg"></span>About</NavLink></NavItem>
+            <NavItem><NavLink  className="nav-link" to="/menu"> <span className="fa fa-list fa-lg"></span>Menu</NavLink></NavItem>
+            <NavItem><NavLink className="nav-link" to="/contact"><span className="fa fa-address-card fa-lg"></span>Contact</NavLink></NavItem>
+        </Nav>
+        </Collapse>
          </div>
          </Navbar>
           <Jumbotron>
@@ -25,5 +48,6 @@ function Header(){
 
 
 		);
+	}
 }
 export default Header;
